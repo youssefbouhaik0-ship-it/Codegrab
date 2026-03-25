@@ -1,0 +1,33 @@
+# Build artifacts
+node_modules/
+dist/
+release/
+*.dmg
+*.zip
+*.blockmap
+*.map
+builder-debug.yml
+
+# Binary data
+eng.traineddata
+
+# macOS
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Development/internal docs (not for public repo)
+.claude/
+MASTER_PROMPT.md
+TASK.md
+SKILL.md
+skills/
+LINKEDIN_POST.md
+
+# Build intermediates
+build/*.iconset/
+build/icon.svg.png
+build/test.png
+build/test.svg

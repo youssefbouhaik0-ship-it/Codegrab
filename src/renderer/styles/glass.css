@@ -1,0 +1,446 @@
+/* ============================================================
+   CodeGrab — Glassmorphism Design System (Tray Popover)
+   Compact popover UI for macOS menu bar app.
+   ============================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Root ── */
+html, body {
+  background: transparent !important;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Design Tokens ── */
+:root {
+  --glass-bg:           rgba(15, 23, 42, 0.88);
+  --glass-bg-hover:     rgba(20, 30, 52, 0.92);
+  --glass-border:       rgba(255, 255, 255, 0.14);
+  --glass-border-hover: rgba(255, 255, 255, 0.22);
+
+  --glass-blur:       28px;
+  --glass-blur-heavy: 44px;
+
+  --glass-shadow:          0 8px 32px rgba(0, 0, 0, 0.35);
+  --glass-shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.45);
+
+  --glass-radius:      16px;
+  --glass-radius-sm:   10px;
+  --glass-radius-lg:   24px;
+  --glass-radius-pill: 9999px;
+
+  --text-primary:   rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.60);
+  --text-tertiary:  rgba(255, 255, 255, 0.35);
+  --text-accent:    #7af5ca;
+  --text-error:     #ff6b6b;
+  --text-warning:   #ffd93d;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 250ms;
+  --duration-slow:   400ms;
+}
+
+/* ── Tray Popover Container ────────────────────────────────────────────── */
+
+.tray-popover {
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(var(--glass-blur-heavy)) saturate(1.5);
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(1.5);
+  border: 1px solid var(--glass-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-elevated);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Popover arrow (points up toward tray icon) */
+.tray-popover::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-bottom: none;
+  border-right: none;
+  transform: translateX(-50%) rotate(45deg);
+  z-index: 1;
+}
+
+/* Hidden during grab — popover invisible so screenshot captures window underneath */
+.tray-popover--hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ── Header ── */
+
+.tray-popover__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  -webkit-app-region: drag;
+}
+
+.tray-popover__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tray-popover__logo {
+  color: var(--text-accent);
+}
+
+.tray-popover__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.tray-popover__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+.tray-popover__shortcut {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-sans);
+}
+
+.tray-popover__grab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: rgba(122, 245, 202, 0.12);
+  border: 1px solid rgba(122, 245, 202, 0.20);
+  border-radius: var(--glass-radius-pill);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-in-out),
+              transform var(--duration-fast) var(--ease-in-out);
+  font-family: var(--font-sans);
+}
+
+.tray-popover__grab-btn:hover {
+  background: rgba(122, 245, 202, 0.20);
+  transform: scale(1.03);
+}
+
+.tray-popover__grab-btn:active {
+  transform: scale(0.97);
+}
+
+.tray-popover__close-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-in-out),
+              color var(--duration-fast) var(--ease-in-out);
+  padding: 0;
+}
+
+.tray-popover__close-btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--text-primary);
+}
+
+.tray-popover__grab-btn--busy {
+  background: rgba(255, 217, 61, 0.12);
+  border-color: rgba(255, 217, 61, 0.20);
+  pointer-events: none;
+}
+
+/* ── Toast Container ── */
+
+#toast-container {
+  padding: 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#toast-container:not(:empty) {
+  padding-top: 10px;
+}
+
+/* ── Code Display Area ── */
+
+#code-display {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+#code-display:not(:empty) {
+  padding-top: 10px;
+  padding-bottom: 14px;
+}
+
+#code-display::-webkit-scrollbar { width: 4px; }
+#code-display::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
+
+/* ── Empty State ── */
+
+.tray-popover__empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.tray-popover__empty p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-tertiary);
+}
+
+.tray-popover__empty strong {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ── Glass Code Block ── */
+
+.glass-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 12px 16px;
+  background: rgba(10, 15, 30, 0.60);
+  border-radius: var(--glass-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--text-primary);
+  overflow-x: auto;
+  max-height: 260px;
+  overflow-y: auto;
+  white-space: pre;
+  word-break: normal;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.glass-code::-webkit-scrollbar { width: 4px; height: 4px; }
+.glass-code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+/* Syntax highlight tokens */
+.hl-keyword { color: var(--text-accent); }
+.hl-string  { color: var(--text-warning); }
+.hl-comment { color: var(--text-tertiary); font-style: italic; }
+.hl-number  { color: #ff9f43; }
+
+/* ── Code Panel (inside popover) ───────────────────────────────────────── */
+
+.code-panel {
+  background: rgba(15, 20, 40, 0.50);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--glass-radius-sm);
+  overflow: hidden;
+  animation: glass-enter var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+.code-panel--exiting {
+  animation: glass-exit var(--duration-fast) var(--ease-in-out) forwards;
+}
+
+@keyframes glass-enter {
+  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes glass-exit {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-2px) scale(0.98); }
+}
+
+.code-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+}
+
+.code-panel__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.code-panel__meta {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.code-panel__close {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 150ms, color 150ms;
+}
+
+.code-panel__close:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--text-primary);
+}
+
+.code-panel__body {
+  padding: 0 14px 12px;
+}
+
+.code-panel__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.code-panel__copy {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 150ms, color 150ms;
+  font-family: var(--font-sans);
+}
+
+.code-panel__copy:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.code-panel__source-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: var(--glass-radius-pill);
+  background: rgba(122, 245, 202, 0.12);
+  color: var(--text-accent);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── AI Analysis Insights ───────────────────────────────────────────────── */
+
+.code-panel__explanation {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  padding: 10px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 10px;
+}
+
+.code-panel__warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-warning);
+  padding: 8px 12px;
+  margin-top: 10px;
+  background: rgba(255, 217, 61, 0.08);
+  border: 1px solid rgba(255, 217, 61, 0.15);
+  border-radius: var(--glass-radius-sm);
+}
+
+.code-panel__warning-icon {
+  flex-shrink: 0;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.code-panel__context-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 10px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.code-panel__context-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.code-panel__context-pill {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--glass-radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}

@@ -1,0 +1,161 @@
+/* ============================================================
+   CodeGrab — Floating Bubble Styles
+   Glassmorphism pill that floats on screen.
+   ============================================================ */
+
+/* Overlay body must be fully transparent */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  overflow: hidden;
+}
+
+/* ── Bubble container ── */
+.fb {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  will-change: transform, opacity;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Pill shape ── */
+.fb__pill {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(40px) saturate(1.4);
+  -webkit-backdrop-filter: blur(40px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 9999px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  cursor: grab;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  transition: padding 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              gap 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 150ms ease;
+}
+
+/* Top-edge glass highlight */
+.fb__pill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.20), transparent);
+  pointer-events: none;
+}
+
+.fb__pill:active {
+  cursor: grabbing;
+}
+
+/* ── Logo icon ── */
+.fb__logo {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  flex-shrink: 0;
+}
+
+/* ── Status dot ── */
+.fb__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  margin-left: 2px;
+  flex-shrink: 0;
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+
+.fb__dot--busy {
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  animation: fb-pulse 1s ease-in-out infinite;
+}
+
+.fb__dot--success {
+  background: #7af5ca;
+  box-shadow: 0 0 8px rgba(122, 245, 202, 0.4);
+}
+
+.fb__dot--error {
+  background: #ff6b6b;
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+@keyframes fb-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Action buttons (hidden when collapsed) ── */
+.fb__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 150ms ease,
+              margin 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 0;
+}
+
+.fb__btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.60);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.fb__btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.fb__btn:active {
+  transform: scale(0.90);
+}
+
+/* ── Expanded state ── */
+.fb--expanded .fb__pill {
+  gap: 2px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.60);
+}
+
+.fb--expanded .fb__actions {
+  max-width: 72px;
+  opacity: 1;
+  margin-left: 4px;
+}
+
+/* ── Hover glow ── */
+.fb:hover .fb__pill {
+  border-color: rgba(255, 255, 255, 0.18);
+}

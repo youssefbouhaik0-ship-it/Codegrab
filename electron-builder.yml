@@ -1,0 +1,71 @@
+appId: com.codegrab.app
+productName: CodeGrab
+copyright: "Copyright © 2026 CodeGrab"
+asar: true
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**/*
+  - src/renderer/**/*
+  - assets/**/*
+  - "!src/**/*.ts"
+  - "!**/*.map"
+
+# ── macOS ──────────────────────────────────────────────────────────────────────
+mac:
+  category: public.app-category.developer-tools
+  icon: build/icon.icns
+  target:
+    - dmg
+    - zip
+  darkModeSupport: true
+  artifactName: "CodeGrab-${version}-mac.${ext}"
+  extendInfo:
+    CFBundleVersion: "2"  # Bump to force macOS icon cache refresh
+    LSUIElement: true  # Hide from Dock (menubar-only app)
+    NSScreenCaptureDescription: "CodeGrab needs screen recording permission to capture code from your screen."
+    NSAppleEventsUsageDescription: "CodeGrab uses AppleScript to read code from browsers and editors."
+  entitlements: null
+  entitlementsInherit: null
+
+dmg:
+  title: "CodeGrab"
+  iconSize: 80
+  background: build/background.png
+  window:
+    width: 660
+    height: 400
+  contents:
+    - x: 180
+      y: 200
+      type: file
+    - x: 480
+      y: 200
+      type: link
+      path: /Applications
+
+# ── Windows ────────────────────────────────────────────────────────────────────
+win:
+  icon: build/icon.png
+  target:
+    - nsis
+    - portable
+  artifactName: "CodeGrab-${version}-win.${ext}"
+  requestedExecutionLevel: asInvoker
+
+nsis:
+  oneClick: true
+  allowToChangeInstallationDirectory: false
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  deleteAppDataOnUninstall: false
+  artifactName: "CodeGrab-${version}-setup.${ext}"
+
+# ── Linux ──────────────────────────────────────────────────────────────────────
+linux:
+  icon: build/icon.png
+  target:
+    - AppImage
+  category: Development
+  artifactName: "CodeGrab-${version}-linux.${ext}"

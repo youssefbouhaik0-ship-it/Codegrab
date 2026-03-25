@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to CodeGrab</title>
+  <link rel="stylesheet" href="styles/onboarding.css">
+</head>
+<body>
+  
+  <div class="onboarding-window">
+    <div class="onboarding__drag-region"></div>
+    
+    <div class="onboarding__hero">
+      <div class="onboarding__logo">CG</div>
+      <h1>Welcome to CodeGrab</h1>
+      <p>Grab text from any screen — code, recipes, notes, anything.</p>
+    </div>
+
+    <div class="onboarding__steps">
+      <div class="step">
+        <div class="step__icon">1</div>
+        <div class="step__text">
+          <strong>Press ⌘⇧X</strong>
+          <span>Watching a tutorial, reading a recipe, or viewing a locked PDF? Just hit the hotkey.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__icon">2</div>
+        <div class="step__text">
+          <strong>Instant Extraction</strong>
+          <span>CodeGrab reads your screen, cleans the text, and copies it to your clipboard.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__icon">3</div>
+        <div class="step__text">
+          <strong>Always Ready</strong>
+          <span>Lives in your menu bar. No windows, no distractions — just grab and go.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="onboarding__footer">
+      <button id="get-started-btn" class="btn-primary">Get Started</button>
+    </div>
+  </div>
+
+  <script type="module" src="../../dist/renderer/onboarding.js"></script>
+</body>
+</html>

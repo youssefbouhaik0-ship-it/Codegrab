@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <title>CodeGrab</title>
+  <link rel="stylesheet" href="./styles/glass.css" />
+  <link rel="stylesheet" href="./styles/toast.css" />
+  <link rel="stylesheet" href="./styles/bubble.css" />
+</head>
+<body>
+  <div class="tray-popover">
+    <!-- Header with app name + grab button -->
+    <div class="tray-popover__header">
+      <div class="tray-popover__brand">
+        <svg class="tray-popover__logo" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        <span class="tray-popover__title">CodeGrab</span>
+      </div>
+      <div class="tray-popover__actions">
+        <span class="tray-popover__shortcut">⌘⇧X</span>
+        <button id="grab-btn" class="tray-popover__grab-btn" title="Grab text from frontmost window">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          Grab
+        </button>
+        <button id="close-btn" class="tray-popover__close-btn" title="Hide (Esc)">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Status toasts -->
+    <div id="toast-container"></div>
+
+    <!-- Code output area -->
+    <div id="code-display"></div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="tray-popover__empty">
+      <p>Press <strong>⌘⇧X</strong> or click <strong>Grab</strong> to extract text from any window — code, recipes, notes, anything.</p>
+    </div>
+  </div>
+
+  <script type="module" src="../../dist/renderer/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "codegrab",
+  "version": "1.0.0",
+  "description": "Menu bar app that grabs text from any screen — code, recipes, notes, anything",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.renderer.json",
+    "build-assets": "bash scripts/build-assets.sh",
+    "dist": "npm run build-assets && npm run build && electron-builder",
+    "dist:mac": "npm run build-assets && npm run build && electron-builder --mac",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:linux": "npm run build && electron-builder --linux"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^41.0.3",
+    "electron-builder": "^26.8.1",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "tesseract.js": "^7.0.0"
+  }
+}
