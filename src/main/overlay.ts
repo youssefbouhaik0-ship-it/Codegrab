@@ -24,6 +24,8 @@ export function createOverlayWindow(): BrowserWindow {
     resizable: false,
     hasShadow: false,
     focusable: false,           // Don't steal focus from user's active app
+    show: false,                // Stay hidden until content is ready — prevents white flash on launch
+    backgroundColor: '#00000000',
     type: 'panel',              // macOS: NSPanel — floats above other windows
     webPreferences: {
       nodeIntegration: false,
@@ -41,8 +43,10 @@ export function createOverlayWindow(): BrowserWindow {
   // Keep floating above everything
   win.setAlwaysOnTop(true, 'floating');
 
-  // Exclude from screen capture so it doesn't appear in OCR screenshots
-  win.setContentProtection(true);
+  // Show only after the page has fully loaded — no white/gray flash on launch
+  win.webContents.once('did-finish-load', () => {
+    win.showInactive(); // showInactive so we never steal focus
+  });
 
   const htmlPath = path.join(app.getAppPath(), 'src', 'renderer', 'overlay.html');
   win.loadFile(htmlPath);

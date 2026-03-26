@@ -1,10 +1,9 @@
 import { globalShortcut, BrowserWindow } from 'electron';
 
-export function registerHotkeys(popover: BrowserWindow, overlay: BrowserWindow): void {
+export function registerHotkeys(popover: BrowserWindow): void {
   const grabHandler = () => {
-    // Only send to overlay — it handles extraction and shows popover with results.
-    // Sending to both causes extraction to run twice simultaneously.
-    overlay.webContents.send('toggle-grab');
+    // Send to popover — it handles extraction, clipboard, and results display.
+    popover.webContents.send('toggle-grab');
   };
 
   // ⌘⇧X — primary hotkey

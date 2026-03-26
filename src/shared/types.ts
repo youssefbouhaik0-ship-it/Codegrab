@@ -13,7 +13,7 @@ export interface AIAnalysisResult {
 }
 
 export interface ExtractionResult extends CodeGrabResult {
-  source: 'browser' | 'accessibility' | 'ocr';
+  source: 'ocr';
   appName: string;
   windowTitle: string;
   analysis?: AIAnalysisResult;

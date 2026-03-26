@@ -13,7 +13,7 @@ interface ExtractionResult {
   code: string;
   language: string;
   lineCount: number;
-  source: 'browser' | 'accessibility' | 'ocr';
+  source: 'ocr';
   appName: string;
   windowTitle: string;
   analysis?: AIAnalysisResult;
@@ -44,6 +44,7 @@ interface ElectronAPI {
   showPopoverInactive: () => void;
   hidePopover: () => void;
   closeOnboarding: () => void;
+  markOnboardingSeen: () => void;
 
   // Permissions
   checkScreenRecording: () => Promise<boolean>;

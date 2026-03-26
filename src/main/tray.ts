@@ -154,6 +154,18 @@ export function setupTray(): BrowserWindow {
   });
 
   popoverWindow = createPopoverWindow();
+
+  // Show briefly on first launch so macOS registers the app as having a real
+  // window — required for Screen Recording permission to appear in System Settings.
+  // Auto-hides after 800ms so it doesn't interrupt the user.
+  popoverWindow.webContents.once('did-finish-load', () => {
+    if (!popoverWindow) return;
+    const bounds = tray!.getBounds();
+    positionPopover(popoverWindow, bounds);
+    popoverWindow.showInactive();
+    setTimeout(() => popoverWindow?.hide(), 800);
+  });
+
   return popoverWindow;
 }
 

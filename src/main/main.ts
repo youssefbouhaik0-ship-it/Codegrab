@@ -1,10 +1,9 @@
 import { app } from 'electron';
 import { setupTray, destroyTray, showPopover } from './tray.js';
-import { createOverlayWindow, destroyOverlay } from './overlay.js';
 import { registerHotkeys, unregisterHotkeys } from './hotkey.js';
-import { setupIpcHandlers } from './ipc-handlers.js';
+import { setupIpcHandlers, checkScreenRecordingPermission } from './ipc-handlers.js';
 import { initOCR, terminateOCR } from './extractors/screenshot-extractor.js';
-import { loadConfig, showOnboardingWindow } from './onboarding.js';
+import { loadConfig, saveConfig, showOnboardingWindow } from './onboarding.js';
 
 // ── Single-instance lock ─────────────────────────────────────────────────────
 // Prevents duplicate tray icons and conflicting hotkey registrations when the
@@ -25,16 +24,21 @@ if (!gotLock) {
     // Create tray icon + popover window (menu bar app)
     const popover = setupTray();
 
-    // Create fullscreen transparent overlay with floating bubble
-    const overlay = createOverlayWindow();
-
     // Register hotkey
-    registerHotkeys(popover, overlay);
+    registerHotkeys(popover);
 
-    // Show onboarding if it's the first time
-    const conf = loadConfig();
-    if (!conf.hasSeenOnboarding) {
+    // Gate: show onboarding only if BOTH permission is missing AND user hasn't
+    // been through onboarding yet. hasSeenOnboarding is saved the moment the
+    // user clicks "Set Up Permissions" — before they open System Settings —
+    // so it survives the macOS Sequoia auto-relaunch that happens when Screen
+    // Recording is toggled. This prevents the loop where permission check
+    // returns false (Sequoia desktopCapturer bug) after a valid grant.
+    const config = loadConfig();
+    const screenGranted = await checkScreenRecordingPermission();
+    if (!screenGranted && !config.hasSeenOnboarding) {
       showOnboardingWindow();
+    } else if (screenGranted) {
+      saveConfig({ hasSeenOnboarding: true }); // keep in sync
     }
 
     // Pre-warm OCR worker (Layer 3 fallback) — non-blocking
@@ -49,7 +53,6 @@ if (!gotLock) {
 
   app.on('will-quit', async () => {
     destroyTray();
-    destroyOverlay();
     await terminateOCR();
   });
 }
@@ -58,3 +61,4 @@ if (!gotLock) {
 if (process.platform === 'darwin') {
   app.dock?.hide();
 }
+

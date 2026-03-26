@@ -52,6 +52,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('close-onboarding');
   },
 
+  markOnboardingSeen: () => {
+    ipcRenderer.send('mark-onboarding-seen');
+  },
+
   // ── Screen Recording permission ─────────────────────────────────────────
   checkScreenRecording: (): Promise<boolean> =>
     ipcRenderer.invoke('check-screen-recording'),

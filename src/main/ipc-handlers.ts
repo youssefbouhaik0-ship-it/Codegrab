@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, clipboard, systemPreferences, shell, deskt
 import { extractCode, getFrontmostApp } from './extractors/context-router.js';
 import { checkAccessibilityPermission, requestAccessibilityPermission } from './extractors/accessibility-extractor.js';
 import { showPopover, showPopoverInactive, getPopoverWindow } from './tray.js';
-import { closeOnboardingWindow } from './onboarding.js';
+import { closeOnboardingWindow, saveConfig } from './onboarding.js';
 
 /**
  * Register all IPC handlers once. Called from main.ts.
@@ -75,23 +75,15 @@ export function setupIpcHandlers(): void {
     closeOnboardingWindow();
   });
 
+  // Save onboarding as seen without closing the window — used when entering the
+  // permissions step so macOS auto-relaunches don't loop back to onboarding.
+  ipcMain.on('mark-onboarding-seen', () => {
+    saveConfig({ hasSeenOnboarding: true });
+  });
+
   // ── Screen Recording permission ─────────────────────────────────────────
   ipcMain.handle('check-screen-recording', async () => {
-    // systemPreferences check works for packaged apps
-    const status = systemPreferences.getMediaAccessStatus('screen');
-    if (status === 'granted') return true;
-
-    // In dev mode, the API may report 'not-determined' even when Electron Helper
-    // has the permission. Try a real capture as a fallback test.
-    try {
-      const sources = await desktopCapturer.getSources({
-        types: ['screen'],
-        thumbnailSize: { width: 1, height: 1 },
-      });
-      return sources.length > 0 && !sources[0].thumbnail.isEmpty();
-    } catch {
-      return false;
-    }
+    return checkScreenRecordingPermission();
   });
 
   ipcMain.on('open-screen-recording-settings', () => {
@@ -110,4 +102,24 @@ export function setupIpcHandlers(): void {
     app.relaunch();
     app.quit();
   });
+}
+
+/**
+ * Reliable Screen Recording check for macOS Sequoia.
+ * 1×1 thumbnails always return empty regardless of permission state —
+ * use a real size and check actual pixel dimensions.
+ */
+export async function checkScreenRecordingPermission(): Promise<boolean> {
+  if (systemPreferences.getMediaAccessStatus('screen') === 'granted') return true;
+  try {
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: { width: 320, height: 200 },
+    });
+    if (!sources || sources.length === 0) return false;
+    const size = sources[0].thumbnail.getSize();
+    return size.width > 1 && size.height > 1;
+  } catch {
+    return false;
+  }
 }

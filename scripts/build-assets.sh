@@ -66,14 +66,18 @@ echo "  ✓ icon.icns created"
 # Our config: window 660×400
 
 echo "  ▸ Rendering DMG background SVG → PNG"
-qlmanage -t -s 660 -o "$BUILD_DIR" "$BG_SVG" 2>/dev/null || true
+qlmanage -t -s 1320 -o "$BUILD_DIR" "$BG_SVG" 2>/dev/null || true
 
 BG_RENDERED="$BUILD_DIR/background.svg.png"
 if [ -f "$BG_RENDERED" ]; then
-  mv "$BG_RENDERED" "$BUILD_DIR/background.png"
-  # Ensure exact dimensions (qlmanage may add padding)
+  # @2x retina version at full render size (1320×800)
+  cp "$BG_RENDERED" "$BUILD_DIR/background@2x.png"
+  sips -z 800 1320 "$BUILD_DIR/background@2x.png" >/dev/null 2>&1
+  # 1x version downscaled from @2x for crisp result
+  cp "$BUILD_DIR/background@2x.png" "$BUILD_DIR/background.png"
   sips -z 400 660 "$BUILD_DIR/background.png" >/dev/null 2>&1
-  echo "  ✓ background.png created (660×400)"
+  rm -f "$BG_RENDERED"
+  echo "  ✓ background.png (660×400) + background@2x.png (1320×800) created"
 else
   if [ -f "$BUILD_DIR/background.png" ]; then
     echo "  ▸ Using existing background.png"
@@ -85,6 +89,6 @@ fi
 # ── 3. Summary ───────────────────────────────────────────────────────────────
 echo ""
 echo "Build assets ready:"
-ls -lh "$BUILD_DIR/icon.icns" "$BUILD_DIR/icon.png" "$BUILD_DIR/background.png" 2>/dev/null || true
+ls -lh "$BUILD_DIR/icon.icns" "$BUILD_DIR/icon.png" "$BUILD_DIR/background.png" "$BUILD_DIR/background@2x.png" 2>/dev/null || true
 echo ""
 echo "Run 'npm run dist:mac' to build the DMG."

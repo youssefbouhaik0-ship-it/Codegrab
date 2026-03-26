@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   } else {
     btnSetupPermissions.addEventListener('click', () => {
+      // Mark as seen immediately — macOS Sequoia auto-relaunches the app when
+      // Screen Recording is toggled, before closeOnboarding() can fire.
+      window.electronAPI.markOnboardingSeen();
       goToStep('permissions');
     });
   }
@@ -63,6 +66,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('perm-screen')!.classList.add('permission-card--granted');
       btnContinue.disabled = false;
       permissionsHint.textContent = 'Screen Recording granted. You\'re ready to go!';
+      // Auto-close after a short delay — macOS Sequoia will relaunch the app
+      // automatically when Screen Recording is toggled, so no manual restart needed.
+      stopPolling();
+      setTimeout(() => window.electronAPI.closeOnboarding(), 1200);
     } else {
       screenStatus.textContent = 'Not granted';
       screenStatus.classList.remove('permission-card__status--granted');

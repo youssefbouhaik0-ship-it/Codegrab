@@ -1,43 +1,10 @@
 <svg width="660" height="400" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0d1117" />
-      <stop offset="100%" stop-color="#080c12" />
+      <stop offset="0%" stop-color="#fafafa" />
+      <stop offset="100%" stop-color="#f0f0f5" />
     </linearGradient>
-    <radialGradient id="spotlight" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.12" />
-      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0" />
-    </radialGradient>
-    <linearGradient id="arrow-grad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5" />
-      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.15" />
-    </linearGradient>
-    <filter id="soft">
-      <feGaussianBlur stdDeviation="1.5" />
-    </filter>
   </defs>
 
-  <!-- Base -->
   <rect width="660" height="400" fill="url(#bg)" />
-  <rect width="660" height="400" fill="url(#spotlight)" />
-
-  <!-- Subtle top separator line -->
-  <line x1="0" y1="0" x2="660" y2="0" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-
-  <!-- Arrow -->
-  <line x1="252" y1="200" x2="398" y2="200"
-    stroke="url(#arrow-grad)" stroke-width="1.5"
-    stroke-linecap="round" stroke-dasharray="5 5" />
-  <path d="M 392 193 L 404 200 L 392 207"
-    fill="none" stroke="#3b82f6" stroke-opacity="0.35"
-    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-
-  <!-- Drag instruction -->
-  <text x="330" y="300"
-    font-family="-apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif"
-    font-size="13" font-weight="400"
-    fill="rgba(255,255,255,0.3)"
-    text-anchor="middle" letter-spacing="0.2">
-    Drag to Applications to install
-  </text>
 </svg>

@@ -24,24 +24,23 @@ mac:
   extendInfo:
     CFBundleVersion: "2"  # Bump to force macOS icon cache refresh
     LSUIElement: true  # Hide from Dock (menubar-only app)
-    NSScreenCaptureDescription: "CodeGrab needs screen recording permission to capture code from your screen."
-    NSAppleEventsUsageDescription: "CodeGrab uses AppleScript to read code from browsers and editors."
+    NSScreenRecordingUsageDescription: "CodeGrab needs Screen Recording permission to read text from your screen."
   entitlements: null
   entitlementsInherit: null
 
 dmg:
   title: "CodeGrab"
-  iconSize: 80
+  iconSize: 160
   background: build/background.png
   window:
     width: 660
     height: 400
   contents:
     - x: 180
-      y: 200
+      y: 170
       type: file
     - x: 480
-      y: 200
+      y: 170
       type: link
       path: /Applications
 
