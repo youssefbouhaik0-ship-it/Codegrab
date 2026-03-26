@@ -42,8 +42,6 @@ CodeGrab sits in your macOS menu bar. Press **Cmd+Shift+X** (or click the tray i
 
 That's it. No account, no API key, everything runs locally.
 
-## How it works
-
 | Step | What happens |
 |------|-------------|
 | **1. Hotkey** | Press **Cmd+Shift+X** anywhere |
@@ -66,25 +64,9 @@ npm install
 npm run dev
 ```
 
-### Package as DMG
-
-```bash
-npm run dist:mac
-```
-
-## Tech stack
-
-- **Electron** — cross-platform desktop shell
-- **TypeScript** — type-safe throughout, no frameworks
-- **Tesseract.js** — local OCR, no API keys
-- **Glassmorphism UI** — translucent, always-on-top popover
 
 ## Requirements
 
 - macOS 12+ (Monterey or later)
 - Screen Recording permission
 - Accessibility permission (for text extraction from apps)
-
-## License
-
-ISC
