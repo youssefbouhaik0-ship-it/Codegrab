@@ -52,6 +52,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('close-onboarding');
   },
 
+  // ── Screen Recording permission ─────────────────────────────────────────
+  checkScreenRecording: (): Promise<boolean> =>
+    ipcRenderer.invoke('check-screen-recording'),
+
+  openScreenRecordingSettings: () => {
+    ipcRenderer.send('open-screen-recording-settings');
+  },
+
+  // ── Relaunch app ────────────────────────────────────────────────────────
+  relaunchApp: () => {
+    ipcRenderer.send('relaunch-app');
+  },
+
   // ── Events from main → renderer ───────────────────────────────────────────
   onToggleGrab: (callback: () => void) => {
     const handler = () => callback();

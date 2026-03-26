@@ -55,9 +55,15 @@ export interface ElectronAPI {
   hidePopover: () => void;
   closeOnboarding: () => void;
 
+  // Permissions
+  checkScreenRecording: () => Promise<boolean>;
+  openScreenRecordingSettings: () => void;
+
+  // App lifecycle
+  relaunchApp: () => void;
+
   // Events from main
   onToggleGrab: (callback: () => void) => () => void;
-  onToggleControlBar: (callback: () => void) => () => void;
   onHotkeyConflict: (callback: (msg: string) => void) => () => void;
 }
 

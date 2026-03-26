@@ -6,42 +6,104 @@
   <link rel="stylesheet" href="styles/onboarding.css">
 </head>
 <body>
-  
+
   <div class="onboarding-window">
     <div class="onboarding__drag-region"></div>
-    
-    <div class="onboarding__hero">
-      <div class="onboarding__logo">CG</div>
-      <h1>Welcome to CodeGrab</h1>
-      <p>Grab text from any screen — code, recipes, notes, anything.</p>
+
+    <!-- Step 1: Welcome -->
+    <div class="onboarding__step" id="step-welcome" data-active="true">
+      <div class="onboarding__hero">
+        <div class="onboarding__logo">CG</div>
+        <h1>Welcome to CodeGrab</h1>
+        <p>Grab text from any screen. Code, recipes, notes, anything.</p>
+      </div>
+
+      <div class="onboarding__steps">
+        <div class="step">
+          <div class="step__icon">1</div>
+          <div class="step__text">
+            <strong>Press &#8984;&#8679;X</strong>
+            <span>Watching a tutorial, reading a recipe, or viewing a locked PDF? Just hit the hotkey.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__icon">2</div>
+          <div class="step__text">
+            <strong>Instant Extraction</strong>
+            <span>CodeGrab reads your screen, cleans the text, and copies it to your clipboard.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__icon">3</div>
+          <div class="step__text">
+            <strong>Always Ready</strong>
+            <span>Lives in your menu bar. No windows, no distractions. Just grab and go.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="onboarding__footer">
+        <button id="btn-next-permissions" class="btn-primary">Set Up Permissions</button>
+      </div>
     </div>
 
-    <div class="onboarding__steps">
-      <div class="step">
-        <div class="step__icon">1</div>
-        <div class="step__text">
-          <strong>Press ⌘⇧X</strong>
-          <span>Watching a tutorial, reading a recipe, or viewing a locked PDF? Just hit the hotkey.</span>
-        </div>
+    <!-- Step 2: Permissions -->
+    <div class="onboarding__step" id="step-permissions" data-active="false">
+      <div class="onboarding__hero">
+        <div class="onboarding__logo" style="font-size: 32px;">&#128274;</div>
+        <h1>Permissions Needed</h1>
+        <p>CodeGrab needs Screen Recording to read text from your screen. Everything stays local, nothing is sent anywhere.</p>
       </div>
-      <div class="step">
-        <div class="step__icon">2</div>
-        <div class="step__text">
-          <strong>Instant Extraction</strong>
-          <span>CodeGrab reads your screen, cleans the text, and copies it to your clipboard.</span>
+
+      <div class="permission-cards">
+        <div class="permission-card" id="perm-screen">
+          <div class="permission-card__header">
+            <div class="permission-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <strong>Screen Recording</strong>
+              <span class="permission-card__desc">Read text from any window on your screen</span>
+            </div>
+            <span class="permission-card__status" id="screen-status">Not granted</span>
+          </div>
+          <button class="btn-secondary" id="btn-grant-screen">Open System Settings</button>
         </div>
+
       </div>
-      <div class="step">
-        <div class="step__icon">3</div>
-        <div class="step__text">
-          <strong>Always Ready</strong>
-          <span>Lives in your menu bar. No windows, no distractions — just grab and go.</span>
-        </div>
+
+      <div class="onboarding__hint" id="permissions-hint">
+        Grant Screen Recording to get started.
+      </div>
+
+      <div class="onboarding__footer">
+        <button id="btn-next-restart" class="btn-primary" disabled>Continue</button>
       </div>
     </div>
 
-    <div class="onboarding__footer">
-      <button id="get-started-btn" class="btn-primary">Get Started</button>
+    <!-- Step 3: Restart -->
+    <div class="onboarding__step" id="step-restart" data-active="false">
+      <div class="onboarding__hero">
+        <div class="onboarding__logo" style="font-size: 32px;">&#9889;</div>
+        <h1>Almost There!</h1>
+        <p>macOS requires a restart for Screen Recording permission to take effect. This is a one-time thing.</p>
+      </div>
+
+      <div class="restart-info">
+        <div class="restart-info__item">
+          <span class="restart-info__check">&#10003;</span>
+          <span>Permissions granted</span>
+        </div>
+        <div class="restart-info__item">
+          <span class="restart-info__arrow">&#8594;</span>
+          <span>Restart to activate</span>
+        </div>
+      </div>
+
+      <div class="onboarding__footer onboarding__footer--split">
+        <button id="btn-skip" class="btn-ghost">Skip for Now</button>
+        <button id="btn-restart" class="btn-primary btn-primary--restart">Restart CodeGrab</button>
+      </div>
     </div>
   </div>
 

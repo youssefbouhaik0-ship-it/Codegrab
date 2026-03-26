@@ -119,7 +119,7 @@ function positionPopover(win: BrowserWindow, trayBounds: Electron.Rectangle): vo
 export function setupTray(): BrowserWindow {
   const icon = createTrayIcon();
   tray = new Tray(icon);
-  tray.setToolTip('CodeGrab — ⌘⇧X to grab text');
+  tray.setToolTip('CodeGrab · ⌘⇧X to grab text');
 
   // Click → native dropdown menu (like Grammarly) — never breaks fullscreen
   const buildMenu = () => Menu.buildFromTemplate([

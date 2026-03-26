@@ -53,7 +53,7 @@ export function showOnboardingWindow(): void {
 
   onboardingWindow = new BrowserWindow({
     width: 600,
-    height: 480,
+    height: 540,
     show: false,
     frame: false,
     resizable: false,

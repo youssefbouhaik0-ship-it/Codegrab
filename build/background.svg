@@ -1,50 +1,43 @@
 <svg width="660" height="400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
-      <stop offset="0%" stop-color="#1a1a2e" />
-      <stop offset="50%" stop-color="#16162a" />
-      <stop offset="100%" stop-color="#0f0f1a" />
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117" />
+      <stop offset="100%" stop-color="#080c12" />
     </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3b82f6" />
-      <stop offset="100%" stop-color="#60a5fa" />
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="6" result="blur" />
-      <feMerge>
-        <feMergeNode in="blur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-    <!-- Subtle radial glow in center -->
-    <radialGradient id="centerGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="rgba(59,130,246,0.08)" />
-      <stop offset="100%" stop-color="rgba(59,130,246,0)" />
+    <radialGradient id="spotlight" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0" />
     </radialGradient>
+    <linearGradient id="arrow-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.15" />
+    </linearGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="1.5" />
+    </filter>
   </defs>
 
-  <!-- Background -->
+  <!-- Base -->
   <rect width="660" height="400" fill="url(#bg)" />
-  <rect width="660" height="400" fill="url(#centerGlow)" />
+  <rect width="660" height="400" fill="url(#spotlight)" />
 
-  <!-- Arrow from app icon to Applications folder -->
-  <g filter="url(#glow)" opacity="0.6">
-    <line x1="240" y1="200" x2="410" y2="200" stroke="url(#accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6" />
-    <path d="M 400 190 L 418 200 L 400 210" fill="none" stroke="url(#accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  </g>
+  <!-- Subtle top separator line -->
+  <line x1="0" y1="0" x2="660" y2="0" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
 
-  <!-- Instructional text -->
-  <text x="330" y="310" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="0.5">
-    Drag CodeGrab to Applications
-  </text>
+  <!-- Arrow -->
+  <line x1="252" y1="200" x2="398" y2="200"
+    stroke="url(#arrow-grad)" stroke-width="1.5"
+    stroke-linecap="round" stroke-dasharray="5 5" />
+  <path d="M 392 193 L 404 200 L 392 207"
+    fill="none" stroke="#3b82f6" stroke-opacity="0.35"
+    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 
-  <!-- Brand text top -->
-  <text x="330" y="52" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.2)" text-anchor="middle" letter-spacing="3">
-    CODEGRAB
-  </text>
-
-  <!-- Version badge -->
-  <text x="330" y="370" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif" font-size="10" fill="rgba(255,255,255,0.18)" text-anchor="middle">
-    v1.0.0 — Grab text from any screen
+  <!-- Drag instruction -->
+  <text x="330" y="300"
+    font-family="-apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif"
+    font-size="13" font-weight="400"
+    fill="rgba(255,255,255,0.3)"
+    text-anchor="middle" letter-spacing="0.2">
+    Drag to Applications to install
   </text>
 </svg>

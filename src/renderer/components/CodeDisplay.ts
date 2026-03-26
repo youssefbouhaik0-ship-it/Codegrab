@@ -208,7 +208,7 @@ export class CodeDisplay {
 
     if (options.windowTitle || options.appName) {
       const parts = [options.windowTitle, options.appName].filter(Boolean);
-      this.metaEl.textContent = parts.join(' — ');
+      this.metaEl.textContent = parts.join(' · ');
       this.metaEl.style.display = '';
     } else {
       this.metaEl.style.display = 'none';

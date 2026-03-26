@@ -32,7 +32,7 @@ export class Onboarding {
             </div>
             <div class="onboarding__step-text">
               <div class="onboarding__step-title">Open any window with code</div>
-              <div class="onboarding__step-desc">Browser, editor, terminal — we detect it automatically</div>
+              <div class="onboarding__step-desc">Browser, editor, terminal. We detect it automatically</div>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ export class Onboarding {
             </div>
             <div class="onboarding__step-text">
               <div class="onboarding__step-title">We read it instantly</div>
-              <div class="onboarding__step-desc">Smart extraction reads code directly — no screen recording needed</div>
+              <div class="onboarding__step-desc">Smart extraction reads code directly, no screen recording needed</div>
             </div>
           </div>
 
