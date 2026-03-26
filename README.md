@@ -35,6 +35,11 @@ CodeGrab sits in your macOS menu bar. Press **Cmd+Shift+X** (or click the tray i
 3. Launch it — the `</>` icon appears in your menu bar
 4. Grant Screen Recording permission when prompted
 
+## How it works
+<p align="center">
+  <img src="build/tutto.png" width="400" height="200" alt="the tuttorial" />
+</p>
+
 That's it. No account, no API key, everything runs locally.
 
 ## How it works
