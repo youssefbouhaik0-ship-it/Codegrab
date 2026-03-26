@@ -37,7 +37,7 @@ CodeGrab sits in your macOS menu bar. Press **Cmd+Shift+X** (or click the tray i
 
 ## How it works
 <p align="center">
-  <img src="build/tutto.png" width="800" height="800" alt="the tuttorial" />
+  <img src="build/tutto.png" width="1000" height="1000" alt="the tuttorial" />
 </p>
 
 That's it. No account, no API key, everything runs locally.
