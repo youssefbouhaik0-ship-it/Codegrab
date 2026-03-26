@@ -5,7 +5,7 @@
 <h1 align="center">CodeGrab</h1>
 
 <p align="center">
-  <strong>Grab text from any screen — code, recipes, notes, anything.</strong><br>
+  <strong>Grab text from any screen, code, recipes, notes, anything.</strong><br>
   A tiny macOS menu bar app that reads your screen and copies what it sees.
 </p>
 
